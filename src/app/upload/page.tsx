@@ -1,6 +1,7 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useState } from "react";
+import styles from "./page.module.css";
 
 export default function UploadForm() {
   const [uploadFile, setUploadFile] = useState<File | null>(null);
@@ -28,20 +29,23 @@ export default function UploadForm() {
   };
 
   return (
-    <div>
-      {uploadedFileName && <div>Uploaded: {uploadedFileName}</div>}
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="file-uploader">A file to upload</label>
-        <input
-          id="file-uploader"
-          name="file-uploader"
-          type="file"
-          aria-label="File uploader"
-          multiple
-          onChange={handleChange}
-        />
-        <button type="submit">Upload</button>
-      </form>
+    <div className={styles.fileUploadFormContainer}>
+      <h2>File Upload Form</h2>
+      <div>
+        {uploadedFileName && <div>Uploaded: {uploadedFileName}</div>}
+        <form className={styles.fileUploadForm} onSubmit={handleSubmit}>
+          <label htmlFor="file-uploader">A file to upload</label>
+          <input
+            id="file-uploader"
+            name="file-uploader"
+            type="file"
+            aria-label="File uploader"
+            multiple
+            onChange={handleChange}
+          />
+          <button type="submit">Upload</button>
+        </form>
+      </div>
     </div>
   );
 }
