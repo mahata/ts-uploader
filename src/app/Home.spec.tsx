@@ -2,9 +2,11 @@ import { render, screen } from "@testing-library/react";
 import Home from "@/app/page";
 
 describe("Home", () => {
-  it("shows 'Hello, world!'", () => {
+  it("shows a link to the file upload page", async () => {
     render(<Home />);
 
-    expect(screen.getByText("Hello, world!")).toBeInTheDocument();
+    expect(
+      await screen.findByRole("link", { name: "Upload a file" })
+    ).toHaveAttribute("href", "/upload");
   });
 });
