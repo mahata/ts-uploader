@@ -3,10 +3,12 @@
 ## Prerequisites
 
 * Node.js (version 20.x or higher)
+* Docker
 
 ## Getting Started
 
 ```bash
-npm i
-npm run dev
+$ docker compose up
+$ npm i
+$ npm run dev
 ```
