@@ -1,6 +1,5 @@
 import { S3FileRepository } from "@/app/backend/repository/FileRepository";
 import { writeFile } from "fs/promises";
-import { S3Client } from "@aws-sdk/client-s3";
 
 jest.mock("fs", () => ({
   ...jest.requireActual("fs"),
@@ -16,8 +15,6 @@ jest.mock("fs/promises", () => ({
 jest.mock("@aws-sdk/client-s3");
 
 const mockedWriteFile = jest.mocked(writeFile);
-const mockedS3Client = new S3Client({});
-mockedS3Client.send = jest.fn();
 
 describe("S3FileRepository", () => {
   let s3FileRepository: S3FileRepository;
