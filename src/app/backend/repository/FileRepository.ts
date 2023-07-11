@@ -7,11 +7,12 @@ export interface FileRepository {
 }
 
 const s3Client = new S3Client({
-  endpoint: "http://127.0.0.1:9000",
-  region: process.env.REGION,
+  endpoint: process.env.AWS_S3_ENDPOINT,
+  region: process.env.AWS_REGION,
+  forcePathStyle: true,
   credentials: {
-    accessKeyId: process.env.ACCESS_KEY_ID!,
-    secretAccessKey: process.env.SECRET_ACCESS_KEY!,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
   },
 });
 
@@ -25,7 +26,7 @@ export class S3FileRepository implements FileRepository {
 
       await s3Client.send(
         new PutObjectCommand({
-          Bucket: process.env.S3_BUCKET_NAME,
+          Bucket: process.env.AWS_S3_BUCKET_NAME,
           Key: file.name,
           Body: fileBuffer,
         })
