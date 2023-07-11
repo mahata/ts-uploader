@@ -4,6 +4,7 @@
 
 * Node.js (version 20.x or higher)
 * Docker
+* direnv
 
 ## Getting Started
 

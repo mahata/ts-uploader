@@ -11,6 +11,7 @@
     "prettify": "eslint --ext .js,.jsx,.ts,.tsx src/ --fix && prettier --write \"src/**/*.ts*\""
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.367.0",
     "@types/node": "20.3.3",
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",

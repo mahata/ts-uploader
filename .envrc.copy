@@ -1,0 +1,4 @@
+export ACCESS_KEY_ID=
+export SECRET_ACCESS_KEY=
+export REGION=ap-northeast-1
+export S3_BUCKET_NAME=
