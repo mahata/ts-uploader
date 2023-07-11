@@ -7,6 +7,6 @@ describe("Home", () => {
 
     expect(
       await screen.findByRole("link", { name: "Upload a file" })
-    ).toHaveAttribute("href", "/files");
+    ).toHaveAttribute("href", "/upload");
   });
 });

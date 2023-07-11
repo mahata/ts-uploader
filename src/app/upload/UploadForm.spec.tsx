@@ -14,7 +14,7 @@ describe("UploadForm", () => {
   it("displays an input form for file files", () => {
     render(<UploadForm />);
 
-    expect(screen.getByText("A file to files")).toBeInTheDocument();
+    expect(screen.getByText("A file to upload")).toBeInTheDocument();
 
     const fileInputEl = screen.getByLabelText("File uploader");
     expect(fileInputEl).toHaveAttribute("type", "file");
