@@ -11,7 +11,7 @@ describe("UploadForm", () => {
     }
   });
 
-  it("displays an input form for file files", () => {
+  it("displays an input form for image objects", () => {
     render(<UploadForm />);
 
     expect(screen.getByText("A file to upload")).toBeInTheDocument();
@@ -24,7 +24,7 @@ describe("UploadForm", () => {
     expect(uploadButtonEl).toBeInTheDocument();
   });
 
-  it("shows the filenames of the uploaded files", async () => {
+  it("shows the filenames of the uploaded objects", async () => {
     const imageFileName = "my.png";
 
     const stubResponse = { message: "success", filename: imageFileName };

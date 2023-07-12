@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import Home from "@/app/page";
 
 describe("Home", () => {
-  it("shows a link to the file files page", async () => {
+  it("shows a link to the upload objects page", async () => {
     render(<Home />);
 
     expect(
