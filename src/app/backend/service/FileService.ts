@@ -2,6 +2,7 @@ import { FileRepository } from "@/app/backend/repository/FileRepository";
 
 export interface FileService {
   saveFile(file: File): void;
+  getFiles(): Promise<string[]>;
 }
 
 export class FileServiceImpl implements FileService {
@@ -13,5 +14,9 @@ export class FileServiceImpl implements FileService {
 
   saveFile(file: File) {
     this.fileRepository.saveFile(file);
+  }
+
+  async getFiles() {
+    return this.fileRepository.getFiles();
   }
 }

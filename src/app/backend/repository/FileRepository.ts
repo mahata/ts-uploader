@@ -1,9 +1,14 @@
 import { writeFile } from "fs/promises";
 import fs from "fs";
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import {
+  ListObjectsV2Command,
+  PutObjectCommand,
+  S3Client,
+} from "@aws-sdk/client-s3";
 
 export interface FileRepository {
   saveFile(file: File): Promise<void>;
+  getFiles(): Promise<string[]>;
 }
 
 const s3Client = new S3Client({
@@ -34,5 +39,16 @@ export class S3FileRepository implements FileRepository {
 
       fs.unlinkSync(tmpFilePath);
     });
+  }
+
+  async getFiles() {
+    const output = await s3Client.send(
+      new ListObjectsV2Command({
+        Bucket: process.env.AWS_S3_BUCKET_NAME,
+        MaxKeys: 10,
+      })
+    );
+
+    return output.Contents?.map(({ Key }) => Key as string) || [];
   }
 }
