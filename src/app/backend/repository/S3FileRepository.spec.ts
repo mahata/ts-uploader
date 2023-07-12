@@ -1,4 +1,4 @@
-import { S3FileRepository } from "@/app/backend/repository/FileRepository";
+import { S3RepositoryImpl } from "@/app/backend/repository/S3Repository";
 import { writeFile } from "fs/promises";
 
 jest.mock("fs", () => ({
@@ -17,11 +17,11 @@ jest.mock("@aws-sdk/client-s3");
 const mockedWriteFile = jest.mocked(writeFile);
 
 describe("S3FileRepository", () => {
-  let s3FileRepository: S3FileRepository;
+  let s3FileRepository: S3RepositoryImpl;
   let myFile: Partial<File>;
 
   beforeEach(() => {
-    s3FileRepository = new S3FileRepository();
+    s3FileRepository = new S3RepositoryImpl();
 
     myFile = {
       name: "dummy.png",
@@ -29,8 +29,8 @@ describe("S3FileRepository", () => {
     };
   });
 
-  it("saveFile() writes file to /tmp", async () => {
-    await s3FileRepository.saveFile(myFile as File);
+  it("pubObject() writes file to /tmp", async () => {
+    await s3FileRepository.pubObject(myFile as File);
 
     expect(mockedWriteFile).toHaveBeenCalledWith(
       `/tmp/${myFile.name}`,

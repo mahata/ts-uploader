@@ -1,16 +1,16 @@
-import { FileServiceImpl } from "@/app/backend/service/FileService";
+import { S3ServiceImpl } from "@/app/backend/service/S3Service";
 
 describe("FileService", () => {
-  it("saveFile() triggers repository's saveFile()", () => {
+  it("pubObject() triggers repository's pubObject()", () => {
     const fileRepositorySpy = {
-      saveFile: jest.fn(),
+      pubObject: jest.fn(),
     };
-    const fileService = new FileServiceImpl(fileRepositorySpy);
+    const fileService = new S3ServiceImpl(fileRepositorySpy);
     const file = new File(["dummy"], "dummy.png", { type: "image/png" });
 
-    fileService.saveFile(file);
+    fileService.pubObject(file);
 
-    expect(fileRepositorySpy.saveFile).toBeCalled();
-    expect(fileRepositorySpy.saveFile).toBeCalledWith(file);
+    expect(fileRepositorySpy.pubObject).toBeCalled();
+    expect(fileRepositorySpy.pubObject).toBeCalledWith(file);
   });
 });

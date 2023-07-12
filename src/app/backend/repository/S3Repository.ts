@@ -6,9 +6,10 @@ import {
   S3Client,
 } from "@aws-sdk/client-s3";
 
-export interface FileRepository {
-  saveFile(file: File): Promise<void>;
-  getFiles(): Promise<string[]>;
+export interface S3Repository {
+  pubObject(file: File): Promise<void>;
+  getObjectKeys(): Promise<string[]>;
+  getSignedUrl(objectKey: string): Promise<void>; // TODO
 }
 
 const s3Client = new S3Client({
@@ -21,8 +22,8 @@ const s3Client = new S3Client({
   },
 });
 
-export class S3FileRepository implements FileRepository {
-  async saveFile(file: File) {
+export class S3RepositoryImpl implements S3Repository {
+  async pubObject(file: File) {
     const buffer = Buffer.from(await file.arrayBuffer());
     const tmpFilePath = `/tmp/${file.name}`;
 
@@ -39,9 +40,11 @@ export class S3FileRepository implements FileRepository {
 
       fs.unlinkSync(tmpFilePath);
     });
+
+    return;
   }
 
-  async getFiles() {
+  async getObjectKeys() {
     const output = await s3Client.send(
       new ListObjectsV2Command({
         Bucket: process.env.AWS_S3_BUCKET_NAME,
@@ -51,4 +54,6 @@ export class S3FileRepository implements FileRepository {
 
     return output.Contents?.map(({ Key }) => Key as string) || [];
   }
+
+  async getSignedUrl(objectKey: string) {}
 }

@@ -1,26 +1,23 @@
 import { NextResponse } from "next/server";
-import {
-  FileService,
-  FileServiceImpl,
-} from "@/app/backend/service/FileService";
-import { S3FileRepository } from "@/app/backend/repository/FileRepository";
+import { S3Service, S3ServiceImpl } from "@/app/backend/service/S3Service";
+import { S3RepositoryImpl } from "@/app/backend/repository/S3Repository";
 
-const fileService: FileService = new FileServiceImpl(new S3FileRepository());
+const s3Service = new S3ServiceImpl(new S3RepositoryImpl());
 
 export async function GET() {
-  const files = await fileService.getFiles();
+  const objectKeys = await s3Service.getObjectKeys();
 
-  return NextResponse.json({ files });
+  return NextResponse.json({ objectKeys });
 }
 
 export async function POST(request: Request) {
   const formData = await request.formData();
   const file = formData.get("file") as File;
 
-  fileService.saveFile(file);
+  await s3Service.pubObject(file);
 
   return NextResponse.json({
     message: "success",
-    filename: file.name,
+    objectKey: file.name,
   });
 }
