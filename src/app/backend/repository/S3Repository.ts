@@ -3,13 +3,15 @@ import fs from "fs";
 import {
   ListObjectsV2Command,
   PutObjectCommand,
+  GetObjectCommand,
   S3Client,
 } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 export interface S3Repository {
   pubObject(file: File): Promise<void>;
   getObjectKeys(): Promise<string[]>;
-  getSignedUrl(objectKey: string): Promise<void>; // TODO
+  getSignedUrl(objectKey: string): Promise<string>;
 }
 
 const s3Client = new S3Client({
@@ -55,5 +57,12 @@ export class S3RepositoryImpl implements S3Repository {
     return output.Contents?.map(({ Key }) => Key as string) || [];
   }
 
-  async getSignedUrl(objectKey: string) {}
+  async getSignedUrl(objectKey: string) {
+    const command = new GetObjectCommand({
+      Bucket: process.env.AWS_S3_BUCKET_NAME,
+      Key: objectKey,
+    });
+
+    return await getSignedUrl(s3Client, command, { expiresIn: 300 });
+  }
 }
