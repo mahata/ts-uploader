@@ -4,10 +4,15 @@ import { S3RepositoryImpl } from "@/app/backend/repository/S3Repository";
 
 const s3Service = new S3ServiceImpl(new S3RepositoryImpl());
 
+export type ObjectKeyResponse = {
+  objectKeys: string[];
+};
+
 export async function GET() {
   const objectKeys = await s3Service.getObjectKeys();
+  const response: ObjectKeyResponse = { objectKeys };
 
-  return NextResponse.json({ objectKeys });
+  return NextResponse.json(response);
 }
 
 export async function POST(request: Request) {
