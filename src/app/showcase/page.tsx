@@ -2,7 +2,7 @@ import { ObjectKeyResponse } from "@/app/api/v1/objects/route";
 import styles from "./page.module.css";
 
 const getObjects = async (): Promise<ObjectKeyResponse> => {
-  const response = await fetch("http://localhost:3000/api/v1/objects", {
+  const response = await fetch(`${process.env.BASE_URL}/api/v1/objects`, {
     next: { revalidate: 300 }, // TODO: Make 300 configurable
   });
 
@@ -15,7 +15,7 @@ type ImagePreviewProp = {
 
 async function ImagePreview({ objectKey }: ImagePreviewProp) {
   const response = await fetch(
-    `http://localhost:3000/api/v1/objects/${objectKey}`,
+    `${process.env.BASE_URL}/api/v1/objects/${objectKey}`,
     {
       next: { revalidate: 300 },
     }
