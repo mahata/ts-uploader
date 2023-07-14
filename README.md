@@ -8,6 +8,15 @@
 
 ## Getting Started
 
+Setup the appropriate env vars:
+
+```bash
+$ copy .envrc.copy .envrc
+$ vim .envrc
+
+(You might need to run `direnv allow` afterwards)
+```
+
 ```bash
 $ docker compose up
 $ npm i

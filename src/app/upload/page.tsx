@@ -19,10 +19,13 @@ export default function UploadForm() {
     const formData = new FormData();
     formData.append("file", uploadFile);
 
-    const res = await fetch(`${process.env.BASE_URL}/api/v1/objects`, {
-      method: "POST",
-      body: formData,
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/objects`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
     const message = await res.json();
 
     setUploadedFileName(message.filename);
