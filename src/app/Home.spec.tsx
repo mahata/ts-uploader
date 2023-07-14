@@ -9,4 +9,12 @@ describe("Home", () => {
       await screen.findByRole("link", { name: "Upload a file" })
     ).toHaveAttribute("href", "/upload");
   });
+
+  it("shows a link to the showcase page", async () => {
+    render(<Home />);
+
+    expect(
+      await screen.findByRole("link", { name: "Go Showcase" })
+    ).toHaveAttribute("href", "/showcase");
+  });
 });

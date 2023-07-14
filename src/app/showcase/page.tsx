@@ -20,37 +20,44 @@ type ImagePreviewProp = {
   objectKey: string;
 };
 
-async function ImagePreview({ objectKey }: ImagePreviewProp) {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/objects/${objectKey}`,
-    {
-      next: { revalidate: 300 },
-    }
-  );
-  const jsonResponse = await response.json();
+function ImagePreview({ objectKey }: ImagePreviewProp) {
+  const [imageUrl, setImageUrl] = useState("/attachment-loading.gif");
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/objects/${objectKey}`,
+        {
+          next: { revalidate: 300 },
+        }
+      );
+      const jsonResponse = await response.json();
 
-  const ext = objectKey.split(".").at(-1)!;
-  const url = [
-    "apng",
-    "avif",
-    "gif",
-    "jpg",
-    "jpeg",
-    "png",
-    "svg",
-    "webp",
-  ].includes(ext)
-    ? jsonResponse.url
-    : "/attachment-icon.png";
+      const ext = objectKey.split(".").at(-1)!;
+      const url = [
+        "apng",
+        "avif",
+        "gif",
+        "jpg",
+        "jpeg",
+        "png",
+        "svg",
+        "webp",
+      ].includes(ext)
+        ? jsonResponse.url
+        : "/attachment-icon.png";
+
+      setImageUrl(url);
+    })();
+  }, []);
 
   return (
     <div className={styles.previewImageContainer}>
-      <Image src={url} alt={url} width={160} />
+      <Image src={imageUrl} alt={imageUrl} width={160} height={160} />
     </div>
   );
 }
 
-export default async function Showcase() {
+export default function Showcase() {
   const [objectKeys, setObjectKeys] = useState<string[]>([]);
   useEffect(() => {
     getObjects().then((objectKeyResponse) => {
